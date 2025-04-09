@@ -74,7 +74,7 @@ int minizip_unpack_to_disk(char *path, void *ptr, int len)
   zlib_filefunc_def pzlib_filefunc_def;
   fill_memory_filefunc(&pzlib_filefunc_def);
   char memname[128];
-  sprintf(memname,"%lx+%lx", (unsigned long)ptr, (unsigned long)len);
+  sprintf(memname,"%zx+%lx", (size_t)ptr, (unsigned long)len);
   unzFile hFile = unzOpen2(memname,&pzlib_filefunc_def);
 
   // get info  
@@ -148,7 +148,7 @@ void *minizip_unpack_to_memory(void *ptr, int len, int *unpack_len)
   zlib_filefunc_def pzlib_filefunc_def;
   fill_memory_filefunc(&pzlib_filefunc_def);
   char memname[128];
-  sprintf(memname,"%lx+%lx", (unsigned long)ptr, (unsigned long)len);
+  sprintf(memname,"%zx+%lx", (size_t)ptr, (unsigned long)len);
   unzFile hFile = unzOpen2(memname,&pzlib_filefunc_def);
   if (unzGoToFirstFile(hFile) != UNZ_OK) goto unpack_to_mem_fail;
   if (unzOpenCurrentFile(hFile) != UNZ_OK) goto unpack_to_mem_fail;

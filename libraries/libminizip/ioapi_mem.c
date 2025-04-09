@@ -93,8 +93,8 @@ voidpf ZCALLBACK fopen_mem_func (opaque, filename, mode)
      * architectures
      */
 
-    unsigned long int p=0;
-    if (sscanf(filename,"%lx+%lx",&p,&mem->size)!=2) {
+    size_t p=0;
+    if (sscanf(filename,"%zx+%lx",&p,&mem->size)!=2) {
       printf("sscanf failed\n");
       return NULL;
     }
