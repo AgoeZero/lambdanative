@@ -1,5 +1,5 @@
-PKGURL=https://github.com/madler/zlib/archive/v1.2.11.zip
-PKGHASH=eba1cd6f2e3c7a75fe33a8b02b4d7e4b1ad58481
+PKGURL=https://github.com/madler/zlib/archive/v1.3.1.zip
+PKGHASH=aafd4f6196c7024a81d3268bf0b777c9b814cf2c
 
 package_download $PKGURL $PKGHASH
 
