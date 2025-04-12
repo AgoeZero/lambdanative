@@ -1,5 +1,5 @@
-PKGURL=https://github.com/libgd/libgd/releases/download/gd-2.1.1/libgd-2.1.1.tar.gz
-PKGHASH=7abafc6f04a1de784a3e619a82239933a5155866
+PKGURL=https://github.com/libgd/libgd/releases/download/gd-2.3.3/libgd-2.3.3.tar.gz
+PKGHASH=a275344fb56161df6a06679bf0bf29c30930d8eb
 package_download $PKGURL $PKGHASH
 
 package_patch
