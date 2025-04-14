@@ -4,7 +4,7 @@ PKGHASH=7079f0d6c42fad0cfba382cf6ad322add1ace8f9
 package_download $PKGURL $PKGHASH
 
 cp $SYS_ROOT/config.guess .
-veval "wget -O config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'"
+veval "wget -O config.sub 'https://raw.githubusercontent.com/gcc-mirror/gcc/refs/heads/master/config.sub'"
 
 package_patch
 
