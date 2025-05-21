@@ -716,8 +716,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   )
 )
 
-(define (redcap-delete-records host token records)
- (let*  ((request  (string-append  "token=" token "&content=record&action=delete&returnFormat=json"))
+(define (redcap-delete-records host token records . xargs)
+ (let*  ((instrument (redcap:arg 'instrument xargs #f))
+         (event (redcap:arg 'event xargs #f))
+         (request  (string-append  "token=" token "&content=record&action=delete&returnFormat=json"
+                                   (if instrument (string-append "&instrument=" instrument) "")
+                                   (if event (string-append "&event=" event) "")))
          (recordstr (if (pair? records)
            (let loop ((i 0) (str ""))
              (if (= i (length records)) str
