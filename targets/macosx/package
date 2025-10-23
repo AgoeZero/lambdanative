@@ -44,21 +44,15 @@ cd $here
 assertfile $pkgfile
 
 if [ $SYS_MODE = release ]; then
-  echo " => submitting zip archive for notarization.."
-  requestUUID=`xcrun altool --notarize-app --primary-bundle-id $SYS_PACKAGE_DOT -u $SYS_ORGEMAIL --password "@keychain:Developer-altool" -f $pkgfile | awk '/RequestUUID/ { print $NF; }'`
-  if [ "X$requestUUID" == "" ]; then
-    echo "ERROR: Upload to Apple for notarization failed!"
-    exit 1
-  else
-    echo " => checking notarization status [RequestUUID: $requestUUID].."
-    request_status="in progress"
-    while [ "$request_status" == "in progress" ]; do
-      echo "    waiting for progress.. "
-      sleep 10
-      request_status=`xcrun altool --notarization-info $requestUUID --username $SYS_ORGEMAIL --password "@keychain:Developer-altool" 2>&1 | awk -F ': ' '/Status:/ { print $2; }'`
-    done
-    xcrun altool --notarization-info $requestUUID --username $SYS_ORGEMAIL --password "@keychain:Developer-altool"
+  veval "xcrun notarytool history --keychain-profile 'Developer-altool'"
+  if [ $? -ne 0 ]; then
+    identity=`security find-identity -v -p codesigning | grep "Developer ID Application" | cut -d\  -f5-`
+    teamid=`echo "$identity" | cut -f 2 -d "(" | cut -f 1 -d ")"`
+    xcrun notarytool store-credentials "Developer-altool" --apple-id $SYS_ORGEMAIL --team-id $teamid
   fi
+
+  echo " => submitting zip archive for notarization.."
+  xcrun notarytool submit --apple-id $SYS_ORGEMAIL --keychain-profile "Developer-altool" $pkgfile --wait
 fi
 echo "=== $pkgfile"
 
